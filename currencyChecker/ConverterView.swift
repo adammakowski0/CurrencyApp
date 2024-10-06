@@ -23,50 +23,56 @@ struct ConverterView: View {
     }
     
     var body: some View {
-        VStack{
-            TextField("Input value", value: $inputCurrencyValue, format: .currency(code: inputCurrency.code))
-                .font(.largeTitle)
-                .fontDesign(.rounded)
-                .fontWeight(.heavy)
-                .multilineTextAlignment(.center)
-                .padding()
-                .cornerRadius(15)
-                .keyboardType(.decimalPad)
-                .onSubmit {keyboardFocus = false}
-                .focused($keyboardFocus)
-                .frame(maxWidth: .infinity)
-                .onChange(of: [inputCurrencyValue ?? 0.0, inputCurrency.mid, outputCurrency.mid]) { newValue in
-                    withAnimation {
-                        outputCurrencyValue = inputCurrency.mid*newValue[0]/outputCurrency.mid
+        NavigationView{
+            VStack{
+                TextField("Input value", value: $inputCurrencyValue, format: .currency(code: inputCurrency.code))
+                    .font(.largeTitle)
+                    .fontDesign(.rounded)
+                    .fontWeight(.heavy)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .cornerRadius(15)
+                    .keyboardType(.decimalPad)
+                    .onSubmit {keyboardFocus = false}
+                    .focused($keyboardFocus)
+                    .frame(maxWidth: .infinity)
+                    .onChange(of: [inputCurrencyValue ?? 0.0, inputCurrency.mid, outputCurrency.mid]) { newValue in
+                        withAnimation {
+                            outputCurrencyValue = inputCurrency.mid*newValue[0]/outputCurrency.mid
+                        }
                     }
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            
+                            Button("Done") {
+                                keyboardFocus = false
+                            }
+                        }
+                    }
+                CurrencyPickerView(pickedCurrency: $inputCurrency)
+                    .padding(.horizontal)
+                Button {
+                    withAnimation{
+                        (inputCurrency, outputCurrency) = (outputCurrency, inputCurrency)
+                    }
+                } label: {
+                    Image(systemName: "arrow.up.arrow.down")
+                    
                 }
-            CurrencyPickerView(pickedCurrency: $inputCurrency)
-                .padding(.horizontal)
-            Button {
-                withAnimation{
-                    (inputCurrency, outputCurrency) = (outputCurrency, inputCurrency)
-                }
-            } label: {
-                Image(systemName: "arrow.up.arrow.down")
+                .tint(.primary)
+                .padding()
+                
+                CurrencyPickerView(pickedCurrency: $outputCurrency)
+                    .padding(.horizontal)
+                
+                Text(outputCurrencyValue, format: .currency(code: outputCurrency.code))
+                    .font(.largeTitle)
+                    .fontDesign(.rounded)
+                    .fontWeight(.heavy)
+                    .contentTransition(.numericText())
                 
             }
-            .tint(.primary)
-            .padding()
-
-            CurrencyPickerView(pickedCurrency: $outputCurrency)
-                .padding(.horizontal)
-            
-            Text(outputCurrencyValue, format: .currency(code: outputCurrency.code))
-                .font(.largeTitle)
-                .fontDesign(.rounded)
-                .fontWeight(.heavy)
-                .contentTransition(.numericText())
-            
-        }
-        .frame(maxHeight: .infinity)
-        .background()
-        .onTapGesture {
-            keyboardFocus = false
         }
     }
 }
