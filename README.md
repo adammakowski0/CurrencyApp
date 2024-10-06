@@ -1,27 +1,33 @@
 # Currency check app
 
-An iOS application that is used to check and convert currency rates. Currency data is obtained from the [NBP API](https://api.nbp.pl/en.html).
+An iOS application for checking and converting currency rates, with data fetched from the [NBP API](https://api.nbp.pl/en.html). App supports iOS 16.6 or newer.
 
-## Technologies used in project
+## Features
+- Browse a list of currencies and search by name or code.
+- Add currencies to favorites.
+- Convert between currencies.
+- Change the base currency from the settings.
+- Currency data is automatically updated from the NBP API.
+
+## Technologies
 - Swift
 - SwiftUI
 - AppStorage and user defaults
-- fetch data from API
+- Fetching data from API
 
 
-## App features
+## Screenshots
 
 ### Home View
 
-Home screen shows a list of currencies. It is possible to add currencies to favorites and search for a currency by code and name. You can select base currency in settings.
-
+The home screen displays a list of available currencies. Users can search for specific currencies by name or code, and add them to their favorites for easier access.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/efcc5364-9ae0-477f-b0db-386b74be2391" width="240"/>
   <img src="https://github.com/user-attachments/assets/eb7badaa-f14e-4c8e-84af-ea902bfe2936" width="240"/>
 </p>
 
-### Currency conversion view and change base currency
+### Currency conversion and base currency selection
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/5d24d714-e4ad-4fbe-91dd-034ebda180b0" width="240"/>
