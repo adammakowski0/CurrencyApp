@@ -50,26 +50,38 @@ struct HomeView: View {
             }
             ConverterView(inputCurrency: vm.mainRate,
                           outputCurrency: vm.mainRate)
-                .tabItem {
-                    Label("Converter", systemImage: "arrow.left.arrow.right.square")
-                }
-            SettingsView()
-            .tabItem{
-                Label("Settings", systemImage: "gear")
+            .tabItem {
+                Label("Converter", systemImage: "arrow.left.arrow.right.square")
             }
+            SettingsView()
+                .tabItem{
+                    Label("Settings", systemImage: "gear")
+                }
         }
     }
 }
 
 extension HomeView {
     private var topBar: some View {
-
-            TextField("\(Image(systemName: "magnifyingglass")) Search currencies", text: $vm.searchText)
-                .padding()
-                .background()
-                .cornerRadius(15)
-                .shadow(radius: 10)
-                .padding(.horizontal)
+        
+        TextField("\(Image(systemName: "magnifyingglass")) Search currencies", text: $vm.searchText)
+            .padding()
+            .background()
+            .cornerRadius(15)
+            .shadow(radius: 10)
+            .padding(.horizontal)
+            .overlay(alignment: .trailing) {
+                if !vm.searchText.isEmpty {
+                    Button {
+                        vm.searchText = ""
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .tint(.primary)
+                            .font(.title3)
+                    }
+                    .padding(.horizontal, 30)
+                }
+            }
     }
     
     private var favouritesView: some View {

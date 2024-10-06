@@ -16,7 +16,7 @@ final class HomeViewModel : ObservableObject{
     @Published var searchText = ""
     @Published var mainRate = ExchangeRate(currency: "Polski Złoty", code: "PLN", mid: 1.0)
 
-    var settingData: SettingsData = SettingsData(favouriteRates: [], mainRate: ExchangeRate(currency: "", code: "", mid: 1.0))
+    var settingData: SettingsData = SettingsData(favouriteRatesCodes: [], mainRateCode: "")
     
     @AppStorage("settingStorage") var settingStorage: Data = Data()
 
@@ -24,7 +24,6 @@ final class HomeViewModel : ObservableObject{
         fetchData(table: "A")
         fetchData(table: "B")
         exchangeRates.append(ExchangeRate(currency: "Polski Złoty", code: "PLN", mid: 1.00))
-        loadFromAppStorage()
     }
     
     func sortRates(){
@@ -49,6 +48,7 @@ final class HomeViewModel : ObservableObject{
                     self?.exchangeRates.append(contentsOf: decodedResponse[0].rates)
                     self?.tableDate = decodedResponse[0].effectiveDate
                     self?.sortRates()
+                    self?.loadFromAppStorage()
                 }
                 
             } else {
@@ -60,7 +60,7 @@ final class HomeViewModel : ObservableObject{
     func addToFavourites(rate: ExchangeRate) {
         if !favouriteCurrencies.contains(where: { $0.id == rate.id }) {
             favouriteCurrencies.append(rate)
-            settingData.favouriteRates.append(rate)
+            settingData.favouriteRatesCodes.append(rate.code)
             saveToAppStorage()
             sortRates()
         }
@@ -68,13 +68,13 @@ final class HomeViewModel : ObservableObject{
     
     func deleteFromFavourites(rate: ExchangeRate) {
         favouriteCurrencies.removeAll { $0.id == rate.id }
-        settingData.favouriteRates.removeAll { $0.id == rate.id }
+        settingData.favouriteRatesCodes.removeAll { $0 == rate.code }
         saveToAppStorage()
         sortRates()
     }
     
     func saveMainCurrencySetting() {
-        settingData.mainRate = self.mainRate
+        settingData.mainRateCode = self.mainRate.code
         saveToAppStorage()
     }
     
@@ -86,10 +86,19 @@ final class HomeViewModel : ObservableObject{
     func loadFromAppStorage() {
         
         guard let settingsData = try? JSONDecoder().decode(SettingsData.self, from: settingStorage) else { return }
-        self.settingData.favouriteRates = settingsData.favouriteRates
-        self.favouriteCurrencies = settingsData.favouriteRates
-        self.settingData.mainRate = settingsData.mainRate
-        self.mainRate = settingsData.mainRate
+        self.settingData.favouriteRatesCodes = settingsData.favouriteRatesCodes
+        for rate in self.exchangeRates{
+            for code in self.settingData.favouriteRatesCodes {
+                if rate.code == code && !self.favouriteCurrencies.contains(rate){
+                    self.favouriteCurrencies.append(rate)
+                }
+            }
+            if rate.code == settingsData.mainRateCode {
+                self.mainRate = rate
+            }
+        }
+        self.settingData.mainRateCode = settingsData.mainRateCode
+        
     }
 }
 
@@ -112,6 +121,6 @@ struct ExchangeRate: Codable, Identifiable, Equatable {
 }
 
 struct SettingsData: Codable {
-    var favouriteRates: [ExchangeRate]
-    var mainRate: ExchangeRate
+    var favouriteRatesCodes: [String]
+    var mainRateCode: String
 }
