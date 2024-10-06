@@ -20,7 +20,7 @@ An iOS application for checking and converting currency rates, with data fetched
 
 ### Home View
 
-The home screen displays a list of available currencies. Users can search for specific currencies by name or code, and add them to their favorites for easier access.
+The home screen displays a list of available currencies. Users can search for currencies by name or code, and add them to favorites for easier access.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/efcc5364-9ae0-477f-b0db-386b74be2391" width="240"/>
