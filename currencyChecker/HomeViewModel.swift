@@ -17,6 +17,7 @@ final class HomeViewModel : ObservableObject{
     @Published var mainRate = ExchangeRate(currency: "Polski Złoty", code: "PLN", mid: 1.0)
     @Published var dataLoaded: Bool = false
     @Published var loading: Bool = false
+    @Published var keyboardFocus: Bool = false
     
     var settingData: SettingsData = SettingsData(favouriteRatesCodes: [], mainRateCode: "")
     

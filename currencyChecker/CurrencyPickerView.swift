@@ -21,6 +21,7 @@ struct CurrencyPickerView: View {
             Button {
                 withAnimation(.easeInOut) {
                     showPicker.toggle()
+                    vm.keyboardFocus = false
                 }
             } label: {
                 HStack{

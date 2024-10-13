@@ -15,7 +15,7 @@ struct ConverterView: View {
     @State var inputCurrency: ExchangeRate
     @State var outputCurrency: ExchangeRate
     
-    @FocusState private var keyboardFocus: Bool
+    @FocusState var keyboardFocus: Bool
     
     init(inputCurrency: ExchangeRate, outputCurrency: ExchangeRate) {
         self.inputCurrency = inputCurrency
@@ -69,7 +69,11 @@ struct ConverterView: View {
                     .font(.largeTitle.weight(.heavy))
                     .roundedFontDesign()
                     .numericTextTransition()
+                    .padding(.bottom, 40)
             }
+            .onAppear { keyboardFocus = vm.keyboardFocus }
+            .onChange(of: keyboardFocus) { vm.keyboardFocus = $0 }
+            .onChange(of: vm.keyboardFocus) { keyboardFocus = $0 }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
