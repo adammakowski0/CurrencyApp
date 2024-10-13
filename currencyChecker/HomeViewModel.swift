@@ -15,8 +15,12 @@ final class HomeViewModel : ObservableObject{
     @Published var favouriteCurrencies : [ExchangeRate] = []
     @Published var searchText = ""
     @Published var mainRate = ExchangeRate(currency: "Polski Złoty", code: "PLN", mid: 1.0)
-
+    @Published var dataLoaded: Bool = false
+    @Published var loading: Bool = false
+    
     var settingData: SettingsData = SettingsData(favouriteRatesCodes: [], mainRateCode: "")
+    
+    var timer: Timer?
     
     @AppStorage("settingStorage") var settingStorage: Data = Data()
 
@@ -32,6 +36,12 @@ final class HomeViewModel : ObservableObject{
     }
     
     func fetchData(table: String) {
+        dataLoaded = false
+        loading = true
+        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { timer in
+            self.loading = false
+            return
+        })
         guard let url = URL(string: "https://api.nbp.pl/api/exchangerates/tables/"+table) else {
             print("Invalid URL")
             return
@@ -45,6 +55,8 @@ final class HomeViewModel : ObservableObject{
             
             if let decodedResponse = try? JSONDecoder().decode([ExchangeRatesResponse].self, from: data)  {
                 DispatchQueue.main.async {
+                    self?.dataLoaded = true
+                    self?.timer?.invalidate()
                     self?.exchangeRates.append(contentsOf: decodedResponse[0].rates)
                     self?.tableDate = decodedResponse[0].effectiveDate
                     self?.sortRates()

@@ -26,9 +26,8 @@ struct ConverterView: View {
         NavigationView{
             VStack{
                 TextField("Input value", value: $inputCurrencyValue, format: .currency(code: inputCurrency.code))
-                    .font(.largeTitle)
-                    .fontDesign(.rounded)
-                    .fontWeight(.heavy)
+                    .font(.largeTitle.weight(.heavy))
+                    .roundedFontDesign()
                     .multilineTextAlignment(.center)
                     .padding()
                     .cornerRadius(15)
@@ -67,15 +66,50 @@ struct ConverterView: View {
                     .padding(.horizontal)
                 
                 Text(outputCurrencyValue, format: .currency(code: outputCurrency.code))
-                    .font(.largeTitle)
-                    .fontDesign(.rounded)
-                    .fontWeight(.heavy)
-                    .contentTransition(.numericText())
-                
+                    .font(.largeTitle.weight(.heavy))
+                    .roundedFontDesign()
+                    .numericTextTransition()
             }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+struct NumericTextViewModifier: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            content
+                .contentTransition(.numericText())
+        }
+        else {
+            content
         }
     }
 }
+
+struct RoundedFontViewModifier: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        if #available(iOS 16.1, *) {
+            content
+                .fontDesign(.rounded)
+        }
+        else {
+            content
+        }
+    }
+}
+
+public extension View {
+    func numericTextTransition() -> some View {
+        self.modifier(NumericTextViewModifier())
+    }
+    func roundedFontDesign() -> some View {
+        self.modifier(RoundedFontViewModifier())
+    }
+}
+
 
 #Preview {
     ConverterView(inputCurrency: ExchangeRate(currency: "Polski Złoty", code: "PLN", mid: 1.0), outputCurrency: ExchangeRate(currency: "Dolar Amerykański", code: "USD", mid: 4.5))

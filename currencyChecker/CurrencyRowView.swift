@@ -32,16 +32,16 @@ struct CurrencyRowView: View {
                 }
             }
             Text(rate.code)
+                .font(.title3.weight(.heavy))
                 .font(.title)
                 .padding(10)
-                .fontWeight(.heavy)
             Text(rate.currency.capitalized)
                 .font(.headline)
                 .fontWeight(.light)
             Spacer()
             Text("\(rateMidValue, specifier: "%.3f") \(vm.mainRate.code)")
                 .lineLimit(1)
-                .fontWeight(.semibold)
+                .font(.headline.weight(.semibold))
         }
     }
     

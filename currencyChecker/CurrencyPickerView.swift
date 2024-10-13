@@ -36,9 +36,8 @@ struct CurrencyPickerView: View {
                             .shadow(radius: 10)
                     }
                     Text(pickedCurrency.code)
-                        .font(.title2)
+                        .font(.title3.weight(.heavy))
                         .padding(.horizontal, 10)
-                        .fontWeight(.heavy)
                     Spacer()
                     Text(pickedCurrency.currency.capitalized)
                         .font(.headline)
@@ -74,9 +73,8 @@ struct CurrencyPickerView: View {
                                     .shadow(radius: 10)
                             }
                             Text(rate.code)
-                                .font(.title2)
+                                .font(.title3.weight(.heavy))
                                 .padding(.horizontal, 10)
-                                .fontWeight(.heavy)
                             Spacer()
                             Text(rate.currency.capitalized)
                                 .font(.headline)

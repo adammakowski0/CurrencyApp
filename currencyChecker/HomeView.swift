@@ -13,8 +13,70 @@ struct HomeView: View {
     
     @State var showSettings: Bool = false
     @State var showSearchBar: Bool = true
+    @State var tabSelection: TabBarItem = .home
     
     var body: some View {
+        if vm.dataLoaded {
+            TabBarContainerView(selection: $tabSelection) {
+                
+                homeView
+                .tabBarItem(tab: .home, selection: $tabSelection)
+                
+                ConverterView(inputCurrency: vm.mainRate,
+                              outputCurrency: vm.mainRate)
+                .tabBarItem(tab: .converter, selection: $tabSelection)
+
+                SettingsView()
+                    .tabBarItem(tab: .settings, selection: $tabSelection)
+            }
+        }
+        else {
+            VStack{
+                Text("Loading currency data...")
+                    .font(.title.weight(.heavy))
+                    .padding()
+                if vm.loading{
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color("background"))
+                                .shadow(radius: 5)
+                                .frame(width: 250, height: 60)
+                        )
+                }
+                else {
+                    Button {
+                        vm.fetchData(table: "A")
+                        vm.fetchData(table: "B")
+                    } label: {
+                        HStack{
+                            Text("Refresh")
+                                
+                            Image(systemName: "arrow.2.circlepath")
+                        }
+                        .font(.headline.weight(.semibold))
+                        .tint(.primary)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color("background"))
+                                .shadow(radius: 5)
+                                .frame(width: 250, height: 60)
+                        )
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color("background"))
+        }
+    }
+}
+
+extension HomeView {
+    
+    private var defaultView: some View {
         TabView{
             ZStack {
                 
@@ -59,9 +121,40 @@ struct HomeView: View {
                 }
         }
     }
-}
-
-extension HomeView {
+    
+    private var homeView: some View {
+        ZStack {
+            
+            Color.background.ignoresSafeArea(.container, edges: .top)
+            
+            VStack {
+                topBar
+                
+                List{
+                    if !filteredFavouritesRates.isEmpty{
+                        Section {
+                            favouritesView
+                        } header: {
+                            headerText(text: "Favourites")
+                        }
+                    }
+                    
+                    if !filteredExchangeRates.isEmpty{
+                        Section {
+                            currenciesList
+                        } header: {
+                            headerText(text: "\(vm.tableDate ?? "")")
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                
+                
+            }
+        }
+    }
+    
+    
     private var topBar: some View {
         
         TextField("\(Image(systemName: "magnifyingglass")) Search currencies", text: $vm.searchText)
@@ -102,10 +195,6 @@ extension HomeView {
                         }
                     }
                 }
-            
-            
-            
-            
         }
     }
     
