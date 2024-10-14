@@ -77,6 +77,9 @@ final class HomeViewModel : ObservableObject{
             saveToAppStorage()
             sortRates()
         }
+        if #available(iOS 17.0, *) {
+            Task { await AddFavouriteTip.setFavouriteEvent.donate() }
+        }
     }
     
     func deleteFromFavourites(rate: ExchangeRate) {

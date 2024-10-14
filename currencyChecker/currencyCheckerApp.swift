@@ -6,13 +6,26 @@
 //
 
 import SwiftUI
+import TipKit
 
 @main
 struct currencyCheckerApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
-                .environmentObject(HomeViewModel())
+            if #available(iOS 17.0, *) {
+                HomeView()
+                    .environmentObject(HomeViewModel())
+                    .task {
+                        try? Tips.configure([
+                            .displayFrequency(.daily),
+                            .datastoreLocation(.applicationDefault)
+                        ])
+                    }
+            }
+            else {
+                HomeView()
+                    .environmentObject(HomeViewModel())
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct HomeView: View {
     
@@ -129,6 +130,10 @@ extension HomeView {
             
             VStack {
                 topBar
+                
+                if #available(iOS 17.0, *) {
+                    AddFavouriteTipView()
+                }
                 
                 List{
                     if !filteredFavouritesRates.isEmpty{
@@ -257,6 +262,19 @@ extension HomeView {
 
 
 #Preview {
-    HomeView()
-        .environmentObject(HomeViewModel())
+    if #available(iOS 17.0, *) {
+        HomeView()
+            .environmentObject(HomeViewModel())
+            .task {
+                try? Tips.resetDatastore()
+                try? Tips.configure([
+                    .displayFrequency(.immediate),
+                    .datastoreLocation(.applicationDefault)
+                ])
+            }
+    }
+    else {
+        HomeView()
+            .environmentObject(HomeViewModel())
+    }
 }

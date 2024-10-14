@@ -22,6 +22,8 @@
 		2CA69C762CA0CCD8003FAEA6 /* ConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA69C752CA0CCD8003FAEA6 /* ConverterView.swift */; };
 		2CA69C782CA18439003FAEA6 /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA69C772CA18439003FAEA6 /* CurrencyPickerView.swift */; };
 		2CAA75612C99F8B10070157B /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA75602C99F8B10070157B /* CurrencyRowView.swift */; };
+		2CB4241A2CBD34C6002ECED3 /* AddFavouriteTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB424192CBD34C6002ECED3 /* AddFavouriteTip.swift */; };
+		2CB4241C2CBD386F002ECED3 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB4241B2CBD386F002ECED3 /* TipView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		2CA69C752CA0CCD8003FAEA6 /* ConverterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterView.swift; sourceTree = "<group>"; };
 		2CA69C772CA18439003FAEA6 /* CurrencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPickerView.swift; sourceTree = "<group>"; };
 		2CAA75602C99F8B10070157B /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
+		2CB424192CBD34C6002ECED3 /* AddFavouriteTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavouriteTip.swift; sourceTree = "<group>"; };
+		2CB4241B2CBD386F002ECED3 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,8 @@
 				2C18E3632BD94F9800AE6608 /* HomeView.swift */,
 				2C995F052CA1CA5E000BA3E2 /* SettingsView.swift */,
 				2CA69C752CA0CCD8003FAEA6 /* ConverterView.swift */,
+				2CB424192CBD34C6002ECED3 /* AddFavouriteTip.swift */,
+				2CB4241B2CBD386F002ECED3 /* TipView.swift */,
 				2C7AB78D2CBA9890004BDB75 /* TabBarView.swift */,
 				2C7AB7932CBBF081004BDB75 /* TabBarItem.swift */,
 				2C7AB78F2CBA9D40004BDB75 /* TabBarContainerView.swift */,
@@ -180,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C18E3642BD94F9800AE6608 /* HomeView.swift in Sources */,
+				2CB4241C2CBD386F002ECED3 /* TipView.swift in Sources */,
 				2CA69C762CA0CCD8003FAEA6 /* ConverterView.swift in Sources */,
 				2C7AB78E2CBA9890004BDB75 /* TabBarView.swift in Sources */,
 				2C7AB7922CBAA114004BDB75 /* TabBarItemPreferenceKey.swift in Sources */,
@@ -187,6 +194,7 @@
 				2C995F062CA1CA5E000BA3E2 /* SettingsView.swift in Sources */,
 				2CAA75612C99F8B10070157B /* CurrencyRowView.swift in Sources */,
 				2C18E3622BD94F9800AE6608 /* currencyCheckerApp.swift in Sources */,
+				2CB4241A2CBD34C6002ECED3 /* AddFavouriteTip.swift in Sources */,
 				2C7AB7902CBA9D40004BDB75 /* TabBarContainerView.swift in Sources */,
 				2C65EEE12BE4EC5800AC0223 /* HomeViewModel.swift in Sources */,
 				2CA69C782CA18439003FAEA6 /* CurrencyPickerView.swift in Sources */,
@@ -321,7 +329,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"currencyChecker/Preview Content\"";
 				DEVELOPMENT_TEAM = 3798CWZT59;
 				ENABLE_PREVIEWS = YES;
@@ -353,7 +361,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"currencyChecker/Preview Content\"";
 				DEVELOPMENT_TEAM = 3798CWZT59;
 				ENABLE_PREVIEWS = YES;
