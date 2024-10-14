@@ -15,14 +15,18 @@ struct TabBarView: View {
     
     @Namespace private var namespace
     
+    @EnvironmentObject var vm: HomeViewModel
+    
     var body: some View {
         Spacer()
         HStack{
-            ForEach(tabs, id: \.self) { tab in
-                tabView(tab: tab)
-                    .onTapGesture {
-                        changeTab(tab: tab)
-                    }
+            if !vm.keyboardFocus {
+                ForEach(tabs, id: \.self) { tab in
+                    tabView(tab: tab)
+                        .onTapGesture {
+                            changeTab(tab: tab)
+                        }
+                }
             }
         }
         .padding(6)
@@ -37,6 +41,7 @@ struct TabBarView: View {
 #Preview {
     let tabs: [TabBarItem] = [.home, .converter, .settings]
     TabBarView(tabs: tabs, selection: .constant(tabs.first!))
+        .environmentObject(HomeViewModel())
 }
 
 extension TabBarView {

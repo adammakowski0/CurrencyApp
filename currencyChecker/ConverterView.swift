@@ -15,7 +15,7 @@ struct ConverterView: View {
     @State var inputCurrency: ExchangeRate
     @State var outputCurrency: ExchangeRate
     
-    @FocusState var keyboardFocus: Bool
+    @FocusState var numPadFocus: Bool
     
     init(inputCurrency: ExchangeRate, outputCurrency: ExchangeRate) {
         self.inputCurrency = inputCurrency
@@ -25,32 +25,14 @@ struct ConverterView: View {
     var body: some View {
         NavigationView{
             VStack{
-                TextField("Input value", value: $inputCurrencyValue, format: .currency(code: inputCurrency.code))
+                Text(outputCurrencyValue, format: .currency(code: outputCurrency.code))
                     .font(.largeTitle.weight(.heavy))
                     .roundedFontDesign()
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .cornerRadius(15)
-                    .keyboardType(.decimalPad)
-                    .onSubmit {keyboardFocus = false}
-                    .focused($keyboardFocus)
-                    .frame(maxWidth: .infinity)
-                    .onChange(of: [inputCurrencyValue ?? 0.0, inputCurrency.mid, outputCurrency.mid]) { newValue in
-                        withAnimation {
-                            outputCurrencyValue = inputCurrency.mid*newValue[0]/outputCurrency.mid
-                        }
-                    }
-                    .toolbar {
-                        ToolbarItemGroup(placement: .keyboard) {
-                            Spacer()
-                            
-                            Button("Done") {
-                                keyboardFocus = false
-                            }
-                        }
-                    }
-                CurrencyPickerView(pickedCurrency: $inputCurrency)
+                    .numericTextTransition()
+                
+                CurrencyPickerView(pickedCurrency: $outputCurrency)
                     .padding(.horizontal)
+
                 Button {
                     withAnimation{
                         (inputCurrency, outputCurrency) = (outputCurrency, inputCurrency)
@@ -62,18 +44,38 @@ struct ConverterView: View {
                 .tint(.primary)
                 .padding()
                 
-                CurrencyPickerView(pickedCurrency: $outputCurrency)
+                CurrencyPickerView(pickedCurrency: $inputCurrency)
                     .padding(.horizontal)
-                
-                Text(outputCurrencyValue, format: .currency(code: outputCurrency.code))
+
+                TextField("Input value", value: $inputCurrencyValue, format: .currency(code: inputCurrency.code))
                     .font(.largeTitle.weight(.heavy))
                     .roundedFontDesign()
-                    .numericTextTransition()
-                    .padding(.bottom, 40)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .cornerRadius(15)
+                    .keyboardType(.decimalPad)
+                    .onSubmit {numPadFocus = false}
+                    .focused($numPadFocus)
+                    .frame(maxWidth: .infinity)
+                    .onChange(of: [inputCurrencyValue ?? 0.0, inputCurrency.mid, outputCurrency.mid]) { newValue in
+                        withAnimation {
+                            outputCurrencyValue = inputCurrency.mid*newValue[0]/outputCurrency.mid
+                        }
+                    }
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            
+                            Button("Done") {
+                                numPadFocus = false
+                                vm.keyboardFocus = false
+                            }
+                        }
+                    }
             }
-            .onAppear { keyboardFocus = vm.keyboardFocus }
-            .onChange(of: keyboardFocus) { vm.keyboardFocus = $0 }
-            .onChange(of: vm.keyboardFocus) { keyboardFocus = $0 }
+            .onAppear { numPadFocus = vm.numPadFocus }
+            .onChange(of: numPadFocus) { vm.numPadFocus = $0 }
+            .onChange(of: vm.numPadFocus) { numPadFocus = $0 }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

@@ -15,7 +15,7 @@ struct AddFavouriteTip: Tip {
     
     var title: Text {
         Text("Add favourite currencies")
-            .foregroundStyle(Color("tabBarColor"))
+            .foregroundStyle(.accent)
     }
     
     var message: Text? {

@@ -16,6 +16,8 @@ struct TabBarContainerView<Content:View> : View {
     
     @State var tabs: [TabBarItem] = []
     
+    @EnvironmentObject var vm: HomeViewModel
+    
     init(selection: Binding<TabBarItem>, @ViewBuilder content: () -> Content) {
         self._selection = selection
         self.content = content()
@@ -24,7 +26,9 @@ struct TabBarContainerView<Content:View> : View {
         ZStack(alignment: .bottom){
             content
                 .safeAreaInset(edge: .bottom) {
-                    TabBarView(tabs: tabs, selection: $selection)
+                    if !vm.keyboardFocus && !vm.numPadFocus {
+                        TabBarView(tabs: tabs, selection: $selection)
+                    }
                 }
         }
         .onPreferenceChange(TabBarItemPreferenceKey.self) { value in
@@ -37,4 +41,5 @@ struct TabBarContainerView<Content:View> : View {
     TabBarContainerView(selection: .constant(.home)) {
         Color.blue
     }
+    .environmentObject(HomeViewModel())
 }

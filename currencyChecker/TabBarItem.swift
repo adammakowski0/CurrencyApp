@@ -28,7 +28,7 @@ enum TabBarItem: Hashable {
     
     var color: Color {
         switch self {
-        default: Color("tabBarColor")
+        default: .accentColor
         }
     }
 }

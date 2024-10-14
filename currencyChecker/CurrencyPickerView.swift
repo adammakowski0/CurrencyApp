@@ -13,6 +13,7 @@ struct CurrencyPickerView: View {
     @Binding var pickedCurrency: ExchangeRate
     @State var searchText: String = ""
     @State var showPicker: Bool = false
+    @FocusState var keyboardFocus: Bool
     
     @EnvironmentObject var vm : HomeViewModel
     
@@ -21,7 +22,7 @@ struct CurrencyPickerView: View {
             Button {
                 withAnimation(.easeInOut) {
                     showPicker.toggle()
-                    vm.keyboardFocus = false
+                    vm.numPadFocus = false
                 }
             } label: {
                 HStack{
@@ -53,6 +54,8 @@ struct CurrencyPickerView: View {
             
             if showPicker{
                 TextField("\(Image(systemName: "magnifyingglass")) Search currencies", text: $searchText)
+                    .onSubmit {keyboardFocus = false}
+                    .focused($keyboardFocus)
                     .padding(.horizontal)
                     .padding(8)
                     .background()
@@ -97,6 +100,9 @@ struct CurrencyPickerView: View {
                 .padding(.bottom)
             }
         }
+        .onAppear { keyboardFocus = vm.keyboardFocus }
+        .onChange(of: keyboardFocus) { vm.keyboardFocus = $0 }
+        .onChange(of: vm.keyboardFocus) { keyboardFocus = $0 }
         .background(.thinMaterial)
         .cornerRadius(20)
         
